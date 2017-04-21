@@ -1,0 +1,23 @@
+<div class="container">
+  <h4><%= @idea.user.name %> says:</h4>
+  <h5><%= @idea.content%></h5>
+</div>
+<div class="container">
+<h5>People who liked this idea:</h5>
+<table class= "striped">
+  <thead>
+    <tr>
+      <th>Alias</th>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @likes.each do |like| %>
+    <tr>
+       <td> <a href="/user/<%= like.user.id %>"><%= like.user.username %></a></td>
+       <td><%= like.user.name %> </td>
+     </tr>
+    <% end %>
+  </tbody>
+  </table>
+</div>

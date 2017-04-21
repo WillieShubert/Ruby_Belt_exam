@@ -1,0 +1,77 @@
+<div class="container">
+  <h5>Hello <%= current_user.name %> </h5>
+  <form class="col s12" action="/new_idea" method="post">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <input type="hidden" name="idea[user_id]" value="<%= current_user.id %>">
+    <div class="row">
+      <div class="input-field col s12">
+        <textarea id="idea_content" name="idea[content]" class="materialize-textarea"></textarea>
+        <label for="idea_content">Idea Space:</label>
+     </div>
+     <button class="btn waves-effect waves-light" type="submit" name="action">Idea!</button>
+   </div>
+  </form>
+  <h2>Top Ideas</h2>
+    <div class="row">
+        <% @top_ideas.each do |idea| %>
+    <div class="col s12 m6">
+      <div class="card blue-grey darken-1">
+        <div class="card-content white-text">
+          <span class="card-title"><a href="user/<%= idea.user.id %>"><%= idea.user.name %></a> says:</span>
+          <p><%= idea.content %></p>
+        </div>
+        <div class="card-action">
+          <form action="/like" method="post">
+            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+            <input type="hidden" name="like[user_id]" value="<%= current_user.id %>">
+            <input type="hidden" name="like[idea_id]" value="<%= idea.id %>">
+            <input type="hidden" name="_method" value="patch">
+            <input type="submit" class="waves-effect waves-light btn" value="Like">
+          </form>
+          <br>
+          <a href="bright_ideas/<%= idea.id%>"><%= idea.likes.count%> person like this </a>
+          <% if idea.user == current_user %>
+          <form action="/idea/<%= idea.id %>/delete" method="post">
+           <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+           <input type="hidden" name="_method" value="delete">
+           <input type="submit" class="waves-effect waves-teal btn-flat" name="Delete" value="Delete">
+          </form>
+          <% end %>
+        </div>
+      </div>
+    </div>
+      <% end %>
+  </div>
+
+  <br>
+  <h2>All Ideas</h2>
+    <div class="row">
+      <% @all_ideas.each do |idea| %>
+    <div class="col s12 m6">
+      <div class="card blue-grey darken-1">
+        <div class="card-content white-text">
+          <span class="card-title"><a href="user/<%= idea.user.id %>"><%= idea.user.name %></a> says:</span>
+          <p><%= idea.content %></p>
+        </div>
+        <div class="card-action">
+          <form action="/like" method="post">
+            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+            <input type="hidden" name="like[user_id]" value="<%= current_user.id %>">
+            <input type="hidden" name="like[idea_id]" value="<%= idea.id %>">
+            <input type="hidden" name="_method" value="patch">
+            <input type="submit" class="waves-effect waves-light btn" value="Like">
+          </form>
+          <br>
+          <a href="bright_ideas/<%= idea.id%>"><%= idea.likes.count%> person like this </a>
+          <% if idea.user == current_user %>
+          <form action="/idea/<%= idea.id %>/delete" method="post">
+           <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+           <input type="hidden" name="_method" value="delete">
+           <input type="submit" class="waves-effect waves-teal btn-flat" name="Delete" value="Delete">
+          </form>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <% end %>
+  </div>
